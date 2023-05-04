@@ -4,9 +4,8 @@ import cv2
 
 
 def train_model(decision):
-    print("Ustawianie modelu")
-    train_new_model = decision
-    if train_new_model:
+    if decision is True:
+        print("Training model...")
         mnist = tf.keras.datasets.mnist
         (trainx, trainy), (testx, testy) = mnist.load_data()
         trainx = tf.keras.utils.normalize(trainx, axis=1)
@@ -22,15 +21,16 @@ def train_model(decision):
         print(val_loss)
         print(val_acc)
         model.save('rozpoznanie_pisma.model')
-        return model
-    else:
-        model = tf.keras.models.load_model('rozpoznanie_pisma.model')
-        return model
+
+
+def load_model():
+    print("Using model")
+    model = tf.keras.models.load_model('rozpoznanie_pisma.model')
+    return model
 
 
 def use_model(filepath):
-    print("Używam modelu aby rozpoznać wartość")
-    model = train_model(False)
+    model = load_model()
     image_file = cv2.imread(filepath)[:, :, 0]
     dsize = (28, 28)
     image_file_resized = cv2.resize(image_file, dsize)

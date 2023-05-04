@@ -1,7 +1,7 @@
 from typing import Union
 from fastapi import FastAPI, File, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
-from model import use_model
+from model import use_model, train_model
 
 app = FastAPI()
 
@@ -25,6 +25,11 @@ async def add_cors_header(request, call_next):
     response.headers["Access-Control-Allow-Methods"] = "GET, POST, OPTIONS"
     response.headers["Access-Control-Allow-Headers"] = "*"
     return response
+
+
+@app.on_event("startup")
+async def startup():
+    train_model(True)
 
 
 @app.post("/recognize")
