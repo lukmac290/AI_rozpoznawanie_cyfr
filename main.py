@@ -1,9 +1,12 @@
 from typing import Union
 from fastapi import FastAPI, File, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 from model import use_model, train_model
 
+
 app = FastAPI()
+app.mount("/myapp", StaticFiles(directory="webapp", html=True), name="webapp")
 
 origins = [
     "*"
@@ -29,7 +32,7 @@ async def add_cors_header(request, call_next):
 
 @app.on_event("startup")
 async def startup():
-    train_model(True)
+    train_model(False)
 
 
 @app.post("/recognize")

@@ -31,7 +31,7 @@
       const formData = new FormData();
       formData.append('file', fileInput.files[0]);
 
-      fetch('http://127.0.0.1:8000/recognize', {
+      fetch('http://127.0.0.1/recognize', {
         method: 'POST',
         body: formData
       })
