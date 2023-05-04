@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Rozpoznanie ręcznie napisanych cyfr</title>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>Wybierz obraz do rozpoznania</h1>
+  <form>
+    <input type="file" id="file-input">
+    <button type="submit" id="submit-button">Wyślij plik</button>
+  </form>
+  <h2>Podgląd załączonego obrazu</h2>
+  <img id="uploaded-image" src="">
+  <div id="response"></div>
+  <script>
+    const form = document.querySelector('form');
+    const fileInput = document.querySelector('#file-input');
+    const submitButton = document.querySelector('#submit-button');
+    const responseDiv = document.querySelector('#response');
+    const uploadedImage = document.querySelector('#uploaded-image');
+
+    fileInput.addEventListener('change', () => {
+      const file = fileInput.files[0];
+      uploadedImage.src = URL.createObjectURL(file);
+    });
+
+    form.addEventListener('submit', event => {
+      event.preventDefault();
+      const formData = new FormData();
+      formData.append('file', fileInput.files[0]);
+
+      fetch('http://127.0.0.1:8000/recognize', {
+        method: 'POST',
+        body: formData
+      })
+      .then(response => response.json())
+      .then(data => {
+        responseDiv.innerHTML = JSON.stringify(data);
+      })
+      .catch(error => console.error(error));
+    });
+  </script>
+</body>
+</html>
