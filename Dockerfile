@@ -20,4 +20,4 @@ RUN apt-get update && apt-get install ffmpeg libsm6 libxext6  -y
 ENV PORT=80
 
 # Nasłuchujemy na porcie zdefiniowanym przez zmienną środowiskową
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "80"]
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0"]
