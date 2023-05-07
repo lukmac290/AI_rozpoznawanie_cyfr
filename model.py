@@ -15,7 +15,9 @@ def train_model(decision):
         model.add(tf.keras.layers.Dense(units=128, activation=tf.nn.relu))
         model.add(tf.keras.layers.Dense(units=128, activation=tf.nn.relu))
         model.add(tf.keras.layers.Dense(units=10, activation=tf.nn.softmax))
-        model.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=['accuracy'])
+        model.compile(optimizer='adam',
+                      loss='sparse_categorical_crossentropy',
+                      metrics=['accuracy'])
         model.fit(trainx, trainy, epochs=3)
         val_loss, val_acc = model.evaluate(testx, testy)
         print(val_loss)
@@ -36,4 +38,5 @@ def use_model(filepath):
     image_file_resized = cv2.resize(image_file, dsize)
     image_file_resized = np.invert(np.array([image_file_resized]))
     number_prediction = model.predict(image_file_resized)
-    return "Numer widoczny na obrazku to prawdopodobnie {}".format(np.argmax(number_prediction))
+    return "Numer widoczny na obrazku to prawdopodobnie {}"\
+        .format(np.argmax(number_prediction))
